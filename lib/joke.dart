@@ -11,41 +11,58 @@ class joke extends StatefulWidget {
 }
 
 class _jokeState extends State<joke> {
-  String joke = 'Press The button to get joke';
+  // String joke = 'Press The button to get joke';
   String joke1 = '';
+  String fact = 'Facts About cats';
   //function
   Future<void> fetchJoke() async {
     setState(() {
-      joke = 'Loading...';
-      joke1 = 'Loading...';
+      // joke = 'Loading...';
+      // joke1 = 'Loading...';
+
+      fact = 'loading';
     });
-    final url = Uri.parse('https://api.chucknorris.io/jokes/random');
-    final url1 = Uri.parse('https://icanhazdadjoke.com/');
+    final url = Uri.parse('https://catfact.ninja/fact');
     final response = await http.get(url);
-    final response1 = await http.get(url1,
-        headers: {'Accept': 'application/json', 'User-Agent': 'learning app'});
-    if (response1.statusCode == 200) {
-      final data = json.decode(response1.body);
-      setState(() {
-        joke1 = data['joke'];
-        print(joke);
-      });
-    } else {
-      setState(() {
-        joke = 'Failed to load joke';
-      });
-    }
-    if (response.statusCode == 200) {
+    if(response.statusCode == 200){
       final data = json.decode(response.body);
       setState(() {
-        joke = data['value'];
-        print(joke);
-      });
-    } else {
-      setState(() {
-        joke = 'Failed to load joke';
+        fact = data['fact'];
       });
     }
+    else{
+       setState(() {
+        fact = 'Failed to load fact';
+      });
+    }
+    
+    // final url = Uri.parse('https://api.chucknorris.io/jokes/random');
+    // final url1 = Uri.parse('https://icanhazdadjoke.com/');
+    // final response = await http.get(url);
+    // final response1 = await http.get(url1,
+    //     headers: {'Accept': 'application/json', 'User-Agent': 'learning app'});
+    // if (response1.statusCode == 200) {
+    //   final data = json.decode(response1.body);
+    //   setState(() {
+    //     joke1 = data['joke'];
+    //     print(joke);
+    //   });
+    // } else {
+    //   setState(() {
+    //     joke = 'Failed to load joke';
+    //   });
+    // }
+    // if (response.statusCode == 200) {
+    //   final data = json.decode(response.body);
+    //   setState(() {
+    //     joke = data['value'];
+    //     print(joke);
+    //   });
+    // } else {
+    //   setState(() {
+    //     joke = 'Failed to load joke';
+    //   });
+    // }
   }
 
   @override
@@ -60,18 +77,18 @@ class _jokeState extends State<joke> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              joke,
+              fact,
               textAlign: TextAlign.center,
               style: TextStyle(fontSize: 20),
             ),
-            Text(
-              joke1,
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 20,color: Colors.blue),
-            ),
+            // Text(
+            //   joke1,
+            //   textAlign: TextAlign.center,
+            //   style: TextStyle(fontSize: 20,color: Colors.blue),
+            // ),
             ElevatedButton(
               onPressed: fetchJoke,
-              child: Text('New Joke'),
+              child: Text('New Fact'),
             ),
           ],
         ),
